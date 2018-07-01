@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">my notes</string>
+    <string name="tb_editNote_label">edit note</string>
+
+    <!-- main -->
+    <string name="btn_main_addNote">add note</string>
+    <string name="snack_main_exist">this note is exist</string>
+
+    <!-- edit note -->
+    <string name="et_editNote_title">title</string>
+    <string name="et_editNote_content">content</string>
+    <string name="et_editNote_title_error">title cant be empty</string>
+    <string name="et_editNote_content_error">content cant be empty</string>
+
+    <!-- items -->
+    <string name="btn_itemDeleteNotes">delete all</string>
+
+</resources>
