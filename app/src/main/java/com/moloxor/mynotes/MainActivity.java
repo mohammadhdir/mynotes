@@ -5,11 +5,12 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements NotesAdapter.Note
         setContentView(R.layout.activity_main);
         setUpViews();
         init();
-        getNotesFromServer();
+        getNotesFromDB();
 
     }
 
@@ -65,10 +66,12 @@ public class MainActivity extends AppCompatActivity implements NotesAdapter.Note
 
     private void setUpToolbar() {
         Toolbar toolbar = findViewById(R.id.tb_main);
-        setActionBar(toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
     }
 
-    public void getNotesFromServer() {
+    public void getNotesFromDB() {
         List<Note> notes = notesDB.getNotes();
 
         if (notes.size() > 0) {
@@ -118,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements NotesAdapter.Note
             note.setTitle(title);
             note.setContent(content);
 
-            if (isTitleExist(note)){
+            if (isTitleExist(note)) {
                 notesAdapter.addNote(note);
                 notesDB.addNote(note);
             } else {
@@ -134,14 +137,13 @@ public class MainActivity extends AppCompatActivity implements NotesAdapter.Note
             note.setTitle(title);
             note.setContent(content);
 
-            if (isTitleExist(note)){
+            if (isTitleExist(note)) {
                 notesAdapter.updateNote(pendingEditNotePosition, title, content);
                 notesDB.updateNote(pendingTitle, title, content);
             } else {
                 Snackbar snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.snack_main_exist), Snackbar.LENGTH_INDEFINITE);
                 snackbar.show();
             }
-
 
 
         }
