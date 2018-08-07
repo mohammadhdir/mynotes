@@ -19,11 +19,13 @@ public class NotesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int VIEW_TYPE_BTNDELETE = 2;
     private List<Note> notes = new ArrayList<>();
     private NoteViewHolder.NoteViewCallBack callBack;
+    private DeleteAllNotesViewHolder.btnDeleteAllCallBack btnDeleteAllCallBack;
     private Context context;
 
-    public NotesAdapter(NoteViewHolder.NoteViewCallBack callBack, Context context) {
+    public NotesAdapter(NoteViewHolder.NoteViewCallBack noteViewCallBack, DeleteAllNotesViewHolder.btnDeleteAllCallBack btnDeleteAllCallBack, Context context) {
 
-        this.callBack = callBack;
+        this.callBack = noteViewCallBack;
+        this.btnDeleteAllCallBack = btnDeleteAllCallBack;
         this.context = context;
     }
 
@@ -61,8 +63,7 @@ public class NotesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     notifyItemRangeRemoved(0, notes.size());
                     notes.clear();
                     checkDeleteAllNotesState();
-                    NotesDB notesDB = new NotesDB(context);
-                    notesDB.deleteAll();
+                    btnDeleteAllCallBack.onDeleteAllClicked();
 
                 }
             });
@@ -74,7 +75,10 @@ public class NotesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        return position == notes.size() ? VIEW_TYPE_BTNDELETE : VIEW_TYPE_NOTE;
+        if (position==notes.size())
+            return VIEW_TYPE_BTNDELETE;
+        else
+            return VIEW_TYPE_NOTE;
     }
 
     @Override
@@ -82,7 +86,7 @@ public class NotesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return notes.size() + 1;
     }
 
-    public void removeItem(int position) {
+    public void removeNote(int position) {
         notes.remove(position);
         notifyItemRemoved(position);
         checkDeleteAllNotesState();
@@ -155,13 +159,19 @@ public class NotesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         private Button btnDeleteAll;
 
+
         public DeleteAllNotesViewHolder(View itemView) {
             super(itemView);
             btnDeleteAll = itemView.findViewById(R.id.btn_deleteNotes_delete);
+
         }
 
         public void setButtonVisibilaty(int visibilaty) {
             btnDeleteAll.setVisibility(visibilaty);
+        }
+
+        public interface btnDeleteAllCallBack{
+            void onDeleteAllClicked();
         }
 
     }

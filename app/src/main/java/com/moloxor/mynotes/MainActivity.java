@@ -15,7 +15,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NotesAdapter.NoteViewHolder.NoteViewCallBack {
+public class MainActivity extends AppCompatActivity implements NotesAdapter.NoteViewHolder.NoteViewCallBack, NotesAdapter.DeleteAllNotesViewHolder.btnDeleteAllCallBack {
 
     public static final int ADD_NOTE_REQUEST_ID = 1001;
     public static final int EDIT_NOTE_REQUEST_ID = 1002;
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements NotesAdapter.Note
     }
 
     private void setUpRecyclerView() {
-        notesAdapter = new NotesAdapter(this, this);
+        notesAdapter = new NotesAdapter(this, this, this);
         RecyclerView rvNotes = findViewById(R.id.rv_main_notes);
         rvNotes.setAdapter(notesAdapter);
         rvNotes.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements NotesAdapter.Note
 
     @Override
     public void onDeleteBtnClicked(int position, Note note) {
-        notesAdapter.removeItem(position);
+        notesAdapter.removeNote(position);
         notesDB.deleteNote(note.getTitle());
     }
 
@@ -150,4 +150,8 @@ public class MainActivity extends AppCompatActivity implements NotesAdapter.Note
     }
 
 
+    @Override
+    public void onDeleteAllClicked() {
+        notesDB.deleteAll();
+    }
 }

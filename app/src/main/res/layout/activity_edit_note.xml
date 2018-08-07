@@ -31,6 +31,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/et_editNote_title"
             android:maxLength="50"
+            android:maxLines="1"
+            android:inputType="textPersonName"
             android:textColor="@android:color/black"
             android:textSize="@dimen/standard_font_size" />
 
