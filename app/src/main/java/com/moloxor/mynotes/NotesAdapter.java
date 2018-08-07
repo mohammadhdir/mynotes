@@ -68,14 +68,16 @@ public class NotesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
             });
 
-            ((DeleteAllNotesViewHolder) holder).setButtonVisibilaty(notes.size() > 1 ? View.VISIBLE : View.GONE);
-
+            if (notes.size() > 1)
+                ((DeleteAllNotesViewHolder) holder).setButtonVisibilaty(View.VISIBLE);
+            else
+                ((DeleteAllNotesViewHolder) holder).setButtonVisibilaty(View.GONE);
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position==notes.size())
+        if (position == notes.size())
             return VIEW_TYPE_BTNDELETE;
         else
             return VIEW_TYPE_NOTE;
@@ -170,7 +172,7 @@ public class NotesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             btnDeleteAll.setVisibility(visibilaty);
         }
 
-        public interface btnDeleteAllCallBack{
+        public interface btnDeleteAllCallBack {
             void onDeleteAllClicked();
         }
 
